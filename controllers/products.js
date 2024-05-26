@@ -2,16 +2,17 @@ const { ctrlWrapper } = require("../helpers");
 const { Product } = require("../models/product.js");
 
 const getAllProducts = async (req, res) => {
-    const { query } = req.query;
-    let products;
-    if (query) {
-        products = await Product.find({
-            name: { $regex: query, $options: 'i' }
-        });
-    } else {
-        products = await Product.find();
-    }
-    res.json(products);
+  const { query } = req.query;
+  let products;
+  if (query) {
+      products = await Product.find({
+          name: { $regex: query, $options: 'i' }
+      });
+  } else {
+      products = await Product.find();
+  }
+  const categories = await Product.distinct('category');
+  res.json({ products, categories });
 };
 
 const addProduct = async (req, res) => {
