@@ -8,6 +8,7 @@ const userRouter = require("./routes/api/user");
 const customersRouter = require("./routes/api/customers");
 const suppliersRouter = require("./routes/api/suppliers");
 const productsRouter = require("./routes/api/products");
+const ordersRouter = require("./routes/api/orders");
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use("/api/user", userRouter);
 app.use("/api/customers", customersRouter);
 app.use("/api/suppliers", suppliersRouter);
 app.use("/api/products", productsRouter);
+app.use("/api/orders", ordersRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
