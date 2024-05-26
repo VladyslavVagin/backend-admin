@@ -2,8 +2,16 @@ const { ctrlWrapper } = require("../helpers");
 const { Product } = require("../models/product.js");
 
 const getAllProducts = async (req, res) => {
-  const products = await Product.find();
-  res.json(products);
+    const { query } = req.query;
+    let products;
+    if (query) {
+        products = await Product.find({
+            name: { $regex: query, $options: 'i' }
+        });
+    } else {
+        products = await Product.find();
+    }
+    res.json(products);
 };
 
 const addProduct = async (req, res) => {
@@ -39,8 +47,21 @@ const updateProduct = async (req, res) => {
   }
 };
 
+const deleteProduct = async (req, res) => {
+  const { _id } = req.params;
+  const product = await Product.findById(_id);
+  if (!product) {
+    res.status(404).json({ message: "Product not found" });
+  } else {
+    await Product.findByIdAndDelete(_id);
+    res.json("Product deleted successfully");
+  }
+};
+
+
 module.exports = {
   getAllProducts: ctrlWrapper(getAllProducts),
   addProduct: ctrlWrapper(addProduct),
   updateProduct: ctrlWrapper(updateProduct),
+  deleteProduct: ctrlWrapper(deleteProduct),
 };

@@ -17,6 +17,7 @@ const productSchema = new Schema({
   },
   category: {
     type: String,
+    enum: ['Medicine', 'Head', 'Hand', 'Dental Care', 'Skin Care', 'Eye Care', 'Vitamins & Supplements', 'Orthopedic Products', 'Baby Care'],
     required: true,
   },
   suppliers: {
@@ -29,7 +30,7 @@ const addProductSchema = Joi.object({
     name: Joi.string().required(),
     price: Joi.string().required(),
     stock: Joi.string().required(),
-    category: Joi.string().required(),
+    category: Joi.string().valid('Medicine', 'Head', 'Hand', 'Dental Care', 'Skin Care', 'Eye Care', 'Vitamins & Supplements', 'Orthopedic Products', 'Baby Care').required(),
     suppliers: Joi.string().required()
 });
 
@@ -37,7 +38,7 @@ const editProductSchema = Joi.object({
     name: Joi.string(),
     price: Joi.string(),
     stock: Joi.string(),
-    category: Joi.string(),
+    category: Joi.string().valid('Medicine', 'Head', 'Hand', 'Dental Care', 'Skin Care', 'Eye Care', 'Vitamins & Supplements', 'Orthopedic Products', 'Baby Care'),
     suppliers: Joi.string()
 });
 
