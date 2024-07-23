@@ -2,7 +2,15 @@ const { ctrlWrapper } = require("../helpers");
 const { Supplier } = require("../models/supplier.js");
 
 const getAllSuppliers = async (req, res) => {
-  const suppliers = await Supplier.find();
+  const { query } = req.query;
+  let suppliers;
+  if (query) {
+    suppliers = await Supplier.find({
+      name: { $regex: query, $options: 'i' }
+    });
+  } else {
+    suppliers = await Supplier.find();
+  }
   res.json(suppliers);
 };
 
