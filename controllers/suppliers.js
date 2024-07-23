@@ -6,7 +6,7 @@ const getAllSuppliers = async (req, res) => {
   let suppliers;
   if (query) {
     suppliers = await Supplier.find({
-      suppliers: { $regex: query, $options: 'i' }
+      name: { $regex: query, $options: 'i' }
     });
   } else {
     suppliers = await Supplier.find();
