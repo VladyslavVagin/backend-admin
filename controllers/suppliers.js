@@ -6,7 +6,7 @@ const getAllSuppliers = async (req, res) => {
   let suppliers;
   if (query) {
     suppliers = await Supplier.find({
-      name: { $regex: query, $options: 'i' }
+      name: { $regex: query, $options: "i" },
     });
   } else {
     suppliers = await Supplier.find();
@@ -39,8 +39,10 @@ const editSupplier = async (req, res) => {
         .status(400)
         .json({ message: "Supplier with this name already exists" });
     } else {
-      await Supplier.findByIdAndUpdate(_id, req.body);
-      res.json({ message: "Supplier updated" });
+      const updatedSupplier = await Supplier.findByIdAndUpdate(_id, req.body, {
+        new: true,
+      });
+      res.json(updatedSupplier);
     }
   }
 };
