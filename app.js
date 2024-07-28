@@ -10,6 +10,8 @@ const suppliersRouter = require("./routes/api/suppliers");
 const productsRouter = require("./routes/api/products");
 const ordersRouter = require("./routes/api/orders");
 const dashboardRouter = require("./routes/api/dashboard");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger.json");
 
 const app = express();
 
@@ -25,6 +27,7 @@ app.use("/api/suppliers", suppliersRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/orders", ordersRouter);
 app.use("/api/dashboard", dashboardRouter);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
