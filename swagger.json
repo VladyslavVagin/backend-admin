@@ -294,6 +294,125 @@
                 }
               }
             }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Server error / Unathorized"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "Unathorized"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/customers": {
+      "get": {
+        "tags": ["Customers"],
+        "summary": "Get all customers list",
+        "description": "Get all customers list endpoint is a mechanism that returns information about all customers. \n or filtered customers by query.",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "Search by query (customer name)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Customers list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomersResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Server error / Unathorized"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "Unathorized"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/orders": {
+      "get": {
+        "tags": ["Orders"],
+        "summary": "Get all orders list",
+        "description": "Get all orders list endpoint is a mechanism that returns information about all orders. \n or filtered orders by query.",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "Search by query (order user name)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Orders list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrdersResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Server error / Unathorized"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "Unathorized"
+                }
+              }
+            }
           }
         }
       }
@@ -468,6 +587,140 @@
             }
           ]
         }
+      },
+      "CustomersResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Customer's id",
+            "example": "5f9f4b3b7f1f3b0b3c7b1b3b"
+          },
+          "image": {
+            "type": "string",
+            "description": "Customer's image",
+            "example": "https://www.google.com/image.jpg"
+          },
+          "name": {
+            "type": "string",
+            "description": "Customer's name",
+            "example": "Test"
+          },
+          "email": {
+            "type": "string",
+            "description": "Customer's email",
+            "example": "test@gmail.com"
+          },
+          "spent": {
+            "type": "string",
+            "description": "Customer's spent",
+            "example": "3,500.65"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Customer's phone",
+            "example": "+380123456789"
+          },
+          "address": {
+            "type": "string",
+            "description": "Customer's address",
+            "example": "Kyiv, Ukraine"
+          },
+          "register_date": {
+            "type": "string",
+            "description": "Customer's register date",
+            "example": "Mar 10, 2023"
+          }
+        },
+        "example": [
+          {
+            "_id": "5f9f4b3b7f1f3b0b3c7b1b3b",
+            "image": "https://www.google.com/image.jpg",
+            "name": "Test",
+            "email": "test@gmail.com",
+            "spent": "3,500.65",
+            "phone": "+380123456789",
+            "address": "Kyiv, Ukraine",
+            "register_date": "Mar 10, 2023"
+          },
+          {
+            "_id": "5f9f4b3b7f1f3b0b3c8b1b4b",
+            "image": "https://www.google.com/image3.jpg",
+            "name": "Test3",
+            "email": "test3@gmail.com",
+            "spent": "3,570.65",
+            "phone": "+380123477789",
+            "address": "Kyiv, Ukraine",
+            "register_date": "Mar 17, 2024"
+          }
+        ]
+      },
+      "OrdersResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Order's id",
+            "example": "5f9f4b3b7f1f3b0b3c7b1b3b"
+          },
+          "photo": {
+            "type": "string",
+            "description": "Order's photo",
+            "example": "https://www.google.com/image.jpg"
+          },
+          "name": {
+            "type": "string",
+            "description": "Order's name",
+            "example": "Test"
+          },
+          "address": {
+            "type": "string",
+            "description": "Order's address",
+            "example": "Kyiv, Ukraine"
+          },
+          "products": {
+            "type": "string",
+            "description": "Quality of products in order",
+            "example": "12"
+          },
+          "price": {
+            "type": "string",
+            "description": "Order's price",
+            "example": "768.55"
+          },
+          "status": {
+            "type": "string",
+            "description": "Order's status",
+            "example": "Delivered"
+          },
+          "order_date": {
+            "type": "string",
+            "description": "Order's date",
+            "example": "Mar 10, 2023"
+          }
+        },
+        "example": [
+          {
+            "_id": "5f9f4b3b7f1f3b0b3c7b1b3b",
+            "photo": "https://www.google.com/image.jpg",
+            "name": "Test",
+            "address": "Kyiv, Ukraine",
+            "products": "12",
+            "price": "768.55",
+            "status": "Delivered",
+            "order_date": "Mar 10, 2023"
+          },
+          {
+            "_id": "5f9f4b3b7f1f3b0b3c7b1b8b",
+            "photo": "https://www.google.com/image1.jpg",
+            "name": "Test1",
+            "address": "Kyiv, Ukraine",
+            "products": "15",
+            "price": "700.55",
+            "status": "Pending",
+            "order_date": "Mar 10, 2024"
+          }
+        ]
       }
     }
   }
