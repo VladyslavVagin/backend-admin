@@ -171,8 +171,7 @@
     "/api/user/logout": {
       "get": {
         "tags": ["User"],
-        "summary": "Signs out admin",
-        "parameters": [],
+        "summary": "Log out admin",
         "description": "Logout endpoint is a logout mechanism that terminates a admin's session and destroys the access token issued during pre-authentication. \n Description:  When a user clicks the logout button, it requests URL/user/logout with a valid token in the authorization header. The server checks the validity of the token, if the token is valid, the user's session is closed, the token is removed and the user is returned to the login page. If the token is invalid, the server returns a 401 status and informs the user that the token is invalid.",
         "security": [{ "Bearer": [] }],
         "responses": {
@@ -203,11 +202,106 @@
           }
         }
       }
+    },
+    "/api/user/user-info": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get admin info",
+        "description": "Get admin info endpoint is a mechanism that returns information about the admin. \n",
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Admin info",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string",
+                      "description": "Admin's email",
+                      "example": "test@gmail.com"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Admin's name",
+                      "example": "Test"
+                    },
+                    "_id": {
+                      "type": "string",
+                      "description": "Admin's id",
+                      "example": "5f9f4b3b7f1f3b0b3c7b1b3b"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Description of the error."
+                    }
+                  }
+                },
+                "example": {
+                  "message": "Not authorized."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Server error / Unathorized"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "Unathorized"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/dashboard": {
+      "get": {
+        "tags": ["Dashboard"],
+        "summary": "Get dashboard info",
+        "description": "Get dashboard info endpoint is a mechanism that returns information about the last orders, income/expense and statistics. \n",
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Dashboard information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DashboardResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "securitySchemes": {
-      "BearerAuth": {
+      "Bearer": {
         "type": "http",
         "scheme": "bearer",
         "bearerFormat": "JWT"
@@ -260,6 +354,119 @@
             "description": "Admin's name",
             "example": "Frederiko"
           }
+        }
+      },
+      "DashboardResponse": {
+        "type": "object",
+        "properties": {
+          "dashboard": [
+            {
+              "_id": {
+                "type": "string",
+                "description": "Order's id",
+                "example": "5f9f4b3b7f1f3b0b3c7b1b3b"
+              },
+              "name": {
+                "type": "string",
+                "description": "Order's name",
+                "example": "Test"
+              },
+              "amount": {
+                "type": "string",
+                "description": "Order's amount",
+                "example": "-32.99"
+              },
+              "type": {
+                "type": ["Income", "Expense", "Error"],
+                "description": "Order's type",
+                "example": "Income"
+              }
+            }
+          ],
+          "productsCount": {
+            "type": "number",
+            "description": "Count of all products",
+            "example": 10
+          },
+          "suppliersCount": {
+            "type": "number",
+            "description": "Count of all suppliers",
+            "example": 5
+          },
+          "customersCount": {
+            "type": "number",
+            "description": "Count of all customers",
+            "example": 15
+          },
+          "customers": [
+            {
+              "_id": {
+                "type": "string",
+                "description": "Customer's id",
+                "example": "5f9f4b3b7f1f3b0b3c7b1b3b"
+              },
+              "image": {
+                "type": "string",
+                "description": "Customer's image",
+                "example": "https://www.google.com/image.jpg"
+              },
+              "name": {
+                "type": "string",
+                "description": "Customer's name",
+                "example": "Test"
+              },
+              "email": {
+                "type": "string",
+                "description": "Customer's email",
+                "example": "test@gmail.com"
+              },
+              "spent": {
+                "type": "string",
+                "description": "Customer's spent",
+                "example": "3,500.65"
+              },
+              "phone": {
+                "type": "string",
+                "description": "Customer's phone",
+                "example": "+380123456789"
+              },
+              "address": {
+                "type": "string",
+                "description": "Customer's address",
+                "example": "Kyiv, Ukraine"
+              },
+              "register_date": {
+                "type": "string",
+                "description": "Customer's register date",
+                "example": "Mar 10, 2023"
+              }
+            }
+          ]
+        },
+        "example": {
+          "dashboard": [
+            {
+              "_id": "5f9f4b3b7f1f3b0b3c7b1b3b",
+              "name": "Test",
+              "amount": "-32.99",
+              "type": "Income"
+            }
+          ],
+          "productsCount": 10,
+          "suppliersCount": 5,
+          "customersCount": 15,
+          "customers": [
+            {
+              "_id": "5f9f4b3b7f1f3b0b3c7b1b3b",
+              "image": "https://www.google.com/image.jpg",
+              "name": "Test",
+              "email": "test@gmail.com",
+              "spent": "3,500.65",
+              "phone": "+380123456789",
+              "address": "Kyiv, Ukraine",
+              "register_date": "Mar 10, 2023"
+            }
+          ]
         }
       }
     }
