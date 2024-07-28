@@ -416,6 +416,163 @@
           }
         }
       }
+    },
+    "/api/products": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Get all products list",
+        "description": "Get all products list endpoint is a mechanism that returns information about all products. \n or filtered products by query.",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "Search by query (product name)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Products list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductsResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Server error / Unathorized"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "Unathorized"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Products"],
+        "summary": "Add new product",
+        "description": "Add new product endpoint is a mechanism that allows you to add a new product to the database. \n",
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "# Description of the request parameters:\n**name** - string, name of product.\n **price** - string, price of product. \n **stock** - string, quality of products in store. \n **category** - string, category of product. \n **suppliers** - supplier of product.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name", "price", "stock", "category", "suppliers"],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Product's name",
+                    "example": "Test"
+                  },
+                  "price": {
+                    "type": "string",
+                    "description": "Product's price",
+                    "example": "68.55"
+                  },
+                  "stock": {
+                    "type": "string",
+                    "description": "Product's stock",
+                    "example": "12"
+                  },
+                  "category": {
+                    "type": "string",
+                    "description": "Product's category",
+                    "example": "Medicines"
+                  },
+                  "suppliers": {
+                    "type": "string",
+                    "description": "Product's suppliers",
+                    "example": "Supplier1"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Product added",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddProductResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Bad request"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "Bad request"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Server error / Unathorized"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "Unathorized"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Products"],
+        "summary": "Edit product",
+        "description": "Edit product endpoint is a mechanism that allows you to edit a product in the database. \n",
+        "security": [{ "Bearer": [] }]
+      },
+      "delete": {
+        "tags": ["Products"],
+        "summary": "Delete product",
+        "description": "Delete product endpoint is a mechanism that allows you to delete a product from the database. \n",
+        "security": [{ "Bearer": [] }]
+      }
     }
   },
   "components": {
@@ -721,6 +878,108 @@
             "order_date": "Mar 10, 2024"
           }
         ]
+      },
+      "ProductsResponse": {
+        "type": "object",
+        "properties": {
+          "products": [
+            {
+              "_id": {
+                "type": "string",
+                "description": "Product's id",
+                "example": "5f9f4b3b7f1f3b0b3c7b1b3b"
+              },
+              "name": {
+                "type": "string",
+                "description": "Product's name",
+                "example": "Test"
+              },
+              "suppliers": {
+                "type": "string",
+                "description": "Product's suppliers",
+                "example": "Supplier1"
+              },
+              "stock": {
+                "type": "string",
+                "description": "Product's stock",
+                "example": "12"
+              },
+              "price": {
+                "type": "string",
+                "description": "Product's price",
+                "example": "68.55"
+              },
+              "category": {
+                "type": "string",
+                "description": "Product's category",
+                "example": "Medicines"
+              }
+            }
+          ],
+          "categories": [
+            {
+              "type": "string",
+              "description": "Category name",
+              "example": "Medicines"
+            }
+          ]
+        },
+        "example": {
+          "products": [
+            {
+              "_id": "5f9f4b3b7f1f3b0b3c7b1b3b",
+              "name": "Test",
+              "suppliers": "Supplier1",
+              "stock": "12",
+              "price": "68.55",
+              "category": "Medicines"
+            },
+            {
+              "_id": "5f9f4b3b7f1f3b0b3c7b1b8b",
+              "name": "Test1",
+              "suppliers": "Supplier2",
+              "stock": "15",
+              "price": "70.55",
+              "category": "Head"
+            }
+          ],
+          "categories": ["Medicines", "Head", "Heart", "Dental Care"]
+        }
+      },
+      "AddProductResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Product's id",
+            "example": "5f9f4b3b7f1f3b0b3c7b1b3b"
+          },
+          "name": {
+            "type": "string",
+            "description": "Product's name",
+            "example": "Test"
+          },
+          "price": {
+            "type": "string",
+            "description": "Product's price",
+            "example": "68.55"
+          },
+          "stock": {
+            "type": "string",
+            "description": "Product's stock",
+            "example": "12"
+          },
+          "category": {
+            "type": "string",
+            "description": "Product's category",
+            "example": "Medicines"
+          },
+          "suppliers": {
+            "type": "string",
+            "description": "Product's suppliers",
+            "example": "Supplier1"
+          }
+        }
       }
     }
   }
