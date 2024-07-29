@@ -833,8 +833,67 @@
             }
           }
         ],
-        "requestBody": {},
-        "responses": {}
+        "requestBody": {
+          "description": "For edit supplier you need to send request with supplier id in url and new supplier data in body. \n # Description of the request parameters:\n**name** - string, name of supplier.\n **address** - string, address of supplier. \n **suppliers** - string, name of company of supplier. \n **date** - string, register date. \n **amount** - string, amount of money of all orders supplier. \n **status** - string, status of supplier. Can be Active or Deactive",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditSupplierRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Supplier edited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditSupplierResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Bad request"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "Bad request"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Server error / Unathorized"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "Unathorized"
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
@@ -1414,6 +1473,89 @@
             "type": "string",
             "description": "Supplier's status",
             "example": "Active"
+          }
+        }
+      },
+      "EditSupplierRequest": {
+        "type": "object",
+        "required": [
+          "name",
+          "address",
+          "suppliers",
+          "date",
+          "amount",
+          "status"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Supplier's name",
+            "example": "Supplier1"
+          },
+          "address": {
+            "type": "string",
+            "description": "Supplier's address",
+            "example": "Odessa, Ukraine"
+          },
+          "suppliers": {
+            "type": "string",
+            "description": "Supplier's company",
+            "example": "VagaFarm"
+          },
+          "date": {
+            "type": "string",
+            "description": "Supplier's date",
+            "example": "Mar 10, 2023"
+          },
+          "amount": {
+            "type": "string",
+            "description": "Supplier's amount",
+            "example": "3500.65"
+          },
+          "status": {
+            "type": "string",
+            "description": "Supplier's status",
+            "example": "Active"
+          }
+        }
+      },
+      "EditSupplierResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Supplier's id",
+            "example": "5f9f4b3b7f1f3b0b3c7b1b3b"
+          },
+          "name": {
+            "type": "string",
+            "description": "Supplier's name",
+            "example": "Supplier2"
+          },
+          "address": {
+            "type": "string",
+            "description": "Supplier's address",
+            "example": "Kyiv, Ukraine"
+          },
+          "suppliers": {
+            "type": "string",
+            "description": "Supplier's company",
+            "example": "Square"
+          },
+          "date": {
+            "type": "string",
+            "description": "Supplier's date",
+            "example": "Mar 10, 2024"
+          },
+          "amount": {
+            "type": "string",
+            "description": "Supplier's amount",
+            "example": "3700.65"
+          },
+          "status": {
+            "type": "string",
+            "description": "Supplier's status",
+            "example": "Deactive"
           }
         }
       }
