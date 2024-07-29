@@ -560,18 +560,281 @@
             }
           }
         }
-      },
+      }
+    },
+    "/api/products/{_id}": {
       "put": {
         "tags": ["Products"],
         "summary": "Edit product",
         "description": "Edit product endpoint is a mechanism that allows you to edit a product in the database. \n",
-        "security": [{ "Bearer": [] }]
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "name": "_id",
+            "in": "path",
+            "description": "Product's id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "For edit product you need to send request with product id in url and new product data in body. \n # Description of the request parameters:\n**name** - string, name of product.\n **price** - string, price of product. \n **stock** - string, quality of products in store. \n **category** - string, category of product. \n **suppliers** - supplier of product.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditProductResponse"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Product edited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditProductResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Bad request"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "Bad request"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Server error / Unathorized"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "Unathorized"
+                }
+              }
+            }
+          }
+        }
       },
       "delete": {
         "tags": ["Products"],
         "summary": "Delete product",
         "description": "Delete product endpoint is a mechanism that allows you to delete a product from the database. \n",
-        "security": [{ "Bearer": [] }]
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "name": "_id",
+            "in": "path",
+            "description": "Product's id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Product deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Product deleted successfully"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "Product deleted successfully"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Bad request"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "Bad request"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Server error / Unathorized"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "Unathorized"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/suppliers": {
+      "get": {
+        "tags": ["Suppliers"],
+        "summary": "Get all suppliers list",
+        "description": "Get all suppliers list endpoint is a mechanism that returns information about all suppliers. \n or filtered suppliers by query.",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "Search by query (supplier name)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Suppliers list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuppliersResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Server error / Unathorized"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "Unathorized"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Suppliers"],
+        "summary": "Add new supplier",
+        "description": "Add new supplier endpoint is a mechanism that allows you to add a new supplier to the database. \n",
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "# Description of the request parameters:\n**name** - string, name of supplier.\n **address** - string, address of supplier. \n **suppliers** - string, name of company of supplier. \n **date** - string, register date. \n **amount** - string, amount of money of all orders supplier. \n **status** - string, status of supplier. Can be Active or Deactive",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddSupplierRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Supplier added",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddSupplierResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Server error / Unathorized"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "Unathorized"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/suppliers/{_id}": {
+      "put": {
+        "tags": ["Suppliers"],
+        "summary": "Edit supplier",
+        "description": "Edit supplier endpoint is a mechanism that allows you to edit a supplier in the database. \n",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "name": "_id",
+            "in": "path",
+            "description": "Supplier's id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {},
+        "responses": {}
       }
     }
   },
@@ -978,6 +1241,179 @@
             "type": "string",
             "description": "Product's suppliers",
             "example": "Supplier1"
+          }
+        }
+      },
+      "EditProductResponse": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Product's name",
+            "example": "New Test"
+          },
+          "price": {
+            "type": "string",
+            "description": "Product's price",
+            "example": "58.55"
+          },
+          "stock": {
+            "type": "string",
+            "description": "Product's stock",
+            "example": "42"
+          },
+          "category": {
+            "type": "string",
+            "description": "Product's category",
+            "example": "Heart"
+          },
+          "suppliers": {
+            "type": "string",
+            "description": "Product's suppliers",
+            "example": "VagaFarm"
+          }
+        }
+      },
+      "SuppliersResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Supplier's id",
+            "example": "5f9f4b3b7f1f3b0b3c7b1b3b"
+          },
+          "name": {
+            "type": "string",
+            "description": "Supplier's name",
+            "example": "Supplier1"
+          },
+          "address": {
+            "type": "string",
+            "description": "Supplier's address",
+            "example": "Odessa, Ukraine"
+          },
+          "suppliers": {
+            "type": "string",
+            "description": "Supplier's company",
+            "example": "VagaFarm"
+          },
+          "date": {
+            "type": "string",
+            "description": "Supplier's date",
+            "example": "Mar 10, 2023"
+          },
+          "amount": {
+            "type": "string",
+            "description": "Supplier's amount",
+            "example": "3500.65"
+          },
+          "status": {
+            "type": "string",
+            "description": "Supplier's status",
+            "example": "Active"
+          }
+        },
+        "example": [
+          {
+            "_id": "5f9f4b3b7f1f3b0b3c7b1b3b",
+            "name": "Supplier1",
+            "address": "Odessa, Ukraine",
+            "suppliers": "VagaFarm",
+            "date": "Mar 10, 2023",
+            "amount": "3500.65",
+            "status": "Active"
+          },
+          {
+            "_id": "5f9f4b3b7f1f3b0b3c7b1b8b",
+            "name": "Supplier2",
+            "address": "Kyiv, Ukraine",
+            "suppliers": "Square",
+            "date": "Mar 10, 2024",
+            "amount": "3700.65",
+            "status": "Deactive"
+          }
+        ]
+      },
+      "AddSupplierRequest": {
+        "type": "object",
+        "required": [
+          "name",
+          "address",
+          "suppliers",
+          "date",
+          "amount",
+          "status"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Supplier's name",
+            "example": "Supplier1"
+          },
+          "address": {
+            "type": "string",
+            "description": "Supplier's address",
+            "example": "Odessa, Ukraine"
+          },
+          "suppliers": {
+            "type": "string",
+            "description": "Supplier's company",
+            "example": "VagaFarm"
+          },
+          "date": {
+            "type": "string",
+            "description": "Supplier's date",
+            "example": "Mar 10, 2023"
+          },
+          "amount": {
+            "type": "string",
+            "description": "Supplier's amount",
+            "example": "3500.65"
+          },
+          "status": {
+            "type": "string",
+            "description": "Supplier's status",
+            "example": "Active"
+          }
+        }
+      },
+      "AddSupplierResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Supplier's id",
+            "example": "5f9f4b3b7f1f3b0b3c7b1b3b"
+          },
+          "name": {
+            "type": "string",
+            "description": "Supplier's name",
+            "example": "Supplier1"
+          },
+          "address": {
+            "type": "string",
+            "description": "Supplier's address",
+            "example": "Odessa, Ukraine"
+          },
+          "suppliers": {
+            "type": "string",
+            "description": "Supplier's company",
+            "example": "VagaFarm"
+          },
+          "date": {
+            "type": "string",
+            "description": "Supplier's date",
+            "example": "Mar 10, 2023"
+          },
+          "amount": {
+            "type": "string",
+            "description": "Supplier's amount",
+            "example": "3500.65"
+          },
+          "status": {
+            "type": "string",
+            "description": "Supplier's status",
+            "example": "Active"
           }
         }
       }
